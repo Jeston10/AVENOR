@@ -64,16 +64,17 @@ coverage/
 .supabase/.branches
 .supabase/.temp
 
-# Audio files (music tracks - large files, typically shouldn't be in git)
-# Remove these lines if you want to track your music files
-*.mp3
-*.wav
-*.ogg
-*.m4a
-*.flac
-*.aac
+# Local music files (we stream from Vercel Blob; these can stay local)
+public/music/*.mp3
+public/music/*.wav
+public/music/*.ogg
+public/music/*.m4a
+public/music/*.flac
+public/music/*.aac
 
 # Misc
 *.bak
 *.tmp
 *.temp
+
+.vercel
