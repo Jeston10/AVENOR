@@ -41,7 +41,11 @@ export default function AnimatedButton(props: Props) {
     whileHover: {
       scale: hoverScale,
       ...(variant === 'primary' && { boxShadow: '0 0 50px rgba(59, 130, 246, 0.5)' }),
-      ...(variant === 'secondary' && { borderColor: 'rgba(59, 130, 246, 0.4)', backgroundColor: 'rgba(255,255,255,0.06)' }),
+      ...(variant === 'secondary' && {
+        backgroundColor: 'var(--color-primary)',
+        borderColor: 'var(--color-primary)',
+        boxShadow: '0 0 40px var(--color-primary-glow)',
+      }),
     },
     whileTap: { scale: tapScale },
     transition: { type: 'spring' as const, stiffness: 400, damping: 17 },

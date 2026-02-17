@@ -35,6 +35,7 @@ lerna-debug.log*
 .cache/
 .parcel-cache/
 .turbo/
+.vite/
 *.local
 
 # OS
@@ -62,6 +63,15 @@ coverage/
 # Local Supabase (if using Supabase CLI)
 .supabase/.branches
 .supabase/.temp
+
+# Audio files (music tracks - large files, typically shouldn't be in git)
+# Remove these lines if you want to track your music files
+*.mp3
+*.wav
+*.ogg
+*.m4a
+*.flac
+*.aac
 
 # Misc
 *.bak

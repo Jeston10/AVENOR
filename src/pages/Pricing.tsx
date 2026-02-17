@@ -65,7 +65,7 @@ export default function Pricing() {
                 <div className="mt-8 flex justify-center">
                   <AnimatedButton
                     to="/contact"
-                    variant={tier.highlighted ? 'primary' : 'secondary'}
+                    variant="secondary"
                     className="w-full md:w-auto text-center py-3 px-6"
                   >
                     {tier.cta}

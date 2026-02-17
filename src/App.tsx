@@ -2,7 +2,9 @@ import { Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout'
 import AppLoader from './components/AppLoader'
 import ErrorBoundary from './components/ErrorBoundary'
+import ScrollToTop from './components/ScrollToTop'
 import { ToastProvider, useToast } from './context/ToastContext'
+import { MusicProvider } from './context/MusicContext'
 import Home from './pages/Home'
 import Services from './pages/Services'
 import Portfolio from './pages/Portfolio'
@@ -17,6 +19,7 @@ function AppContent() {
   const addToast = useToast()
   return (
     <ErrorBoundary onError={() => addToast('Something went wrong. Please refresh the page.', 'error')}>
+      <ScrollToTop />
       <AppLoader>
         <Layout>
           <Routes>
@@ -39,7 +42,9 @@ function AppContent() {
 function App() {
   return (
     <ToastProvider>
-      <AppContent />
+      <MusicProvider>
+        <AppContent />
+      </MusicProvider>
     </ToastProvider>
   )
 }

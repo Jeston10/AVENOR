@@ -37,7 +37,7 @@ const LoadingScreen = () => {
           />
         </div>
 
-        <div className="relative z-10 flex h-full items-center justify-center px-6">
+        <div className="relative z-10 flex h-full flex-col items-center justify-center gap-6 px-6">
           <h1 className="font-display text-white font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight text-center">
             {text}
             {visibleLength > 0 && visibleLength < LOADING_TITLE.length && (
@@ -47,6 +47,7 @@ const LoadingScreen = () => {
               />
             )}
           </h1>
+          <p className="text-sm text-white/60 animate-pulse">Tap or click anywhere to begin</p>
         </div>
       </div>
     </div>
