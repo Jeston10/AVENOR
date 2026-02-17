@@ -4,6 +4,7 @@ import ScrollReveal from '../components/ScrollReveal'
 import SectionWithImage from '../components/SectionWithImage'
 import { sectionImages } from '../data/sectionImages'
 import { supabase } from '../lib/supabase'
+import { useToast } from '../context/ToastContext'
 import TermsAndConditionsModal from '../components/TermsAndConditionsModal'
 
 const PROJECT_OPTIONS = [
@@ -42,6 +43,7 @@ export default function Contact() {
   const [termsModalOpen, setTermsModalOpen] = useState(false)
   const [agreedToTerms, setAgreedToTerms] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const addToast = useToast()
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -70,17 +72,23 @@ export default function Contact() {
       : null
 
     if (!name) {
-      setError('Please enter your name or company.')
+      const msg = 'Please enter your name or company.'
+      setError(msg)
+      addToast(msg, 'error')
       setSubmitting(false)
       return
     }
     if (!isValidEmail(email)) {
-      setError('Please enter a valid email address.')
+      const msg = 'Please enter a valid email address.'
+      setError(msg)
+      addToast(msg, 'error')
       setSubmitting(false)
       return
     }
     if (!message) {
-      setError('Please enter a message.')
+      const msg = 'Please enter a message.'
+      setError(msg)
+      addToast(msg, 'error')
       setSubmitting(false)
       return
     }
@@ -93,7 +101,9 @@ export default function Contact() {
     })
     setSubmitting(false)
     if (submitError) {
-      setError(submitError.message || 'Something went wrong. Please try again.')
+      const msg = submitError.message || 'Something went wrong. Please try again.'
+      setError(msg)
+      addToast(msg, 'error')
       return
     }
     setSent(true)

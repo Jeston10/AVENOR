@@ -1,6 +1,6 @@
-import type { ReactNode } from 'react'
+import { type ReactNode, useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import AnimatedButton from './AnimatedButton'
 import ScrollProgress from './ScrollProgress'
 import SectionDivider from './SectionDivider'
@@ -18,6 +18,13 @@ const nav = [
 
 export default function Layout({ children }: { children: ReactNode }) {
   const location = useLocation()
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  useEffect(() => {
+    if (menuOpen) document.body.style.overflow = 'hidden'
+    else document.body.style.overflow = ''
+    return () => { document.body.style.overflow = '' }
+  }, [menuOpen])
 
   return (
     <>
@@ -28,12 +35,25 @@ export default function Layout({ children }: { children: ReactNode }) {
         animate={{ y: 0 }}
         transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
-        <div className="w-full px-6 py-4 flex items-center justify-between">
-          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-            <Link to="/" className="font-display font-bold text-xl tracking-tight text-white block">
-              Avenor
-            </Link>
-          </motion.div>
+        <div className="w-full px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3 min-w-0">
+            <button
+              type="button"
+              onClick={() => setMenuOpen((o) => !o)}
+              className="md:hidden flex flex-col justify-center items-center w-10 h-10 rounded-lg text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] shrink-0"
+              aria-label="Open menu"
+              aria-expanded={menuOpen}
+            >
+              <span className={`block w-5 h-0.5 bg-current rounded-full transition-transform ${menuOpen ? 'rotate-45 translate-y-1' : ''}`} />
+              <span className={`block w-5 h-0.5 bg-current rounded-full my-1 ${menuOpen ? 'opacity-0' : ''}`} />
+              <span className={`block w-5 h-0.5 bg-current rounded-full transition-transform ${menuOpen ? '-rotate-45 -translate-y-1' : ''}`} />
+            </button>
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="min-w-0">
+              <Link to="/" className="font-display font-bold text-xl tracking-tight text-white block truncate" onClick={() => setMenuOpen(false)}>
+                Avenor
+              </Link>
+            </motion.div>
+          </div>
           <nav className="hidden md:flex items-center gap-8">
             {nav.map(({ to, label }) => (
               <motion.div
@@ -59,11 +79,60 @@ export default function Layout({ children }: { children: ReactNode }) {
               </motion.div>
             ))}
           </nav>
-          <AnimatedButton to="/contact" variant="primary" className="px-5 py-2.5 text-sm">
-            Get a Quote
-          </AnimatedButton>
+          <div className="hidden md:block shrink-0">
+            <AnimatedButton to="/contact" variant="primary" className="px-5 py-2.5 text-sm">
+              Get a Quote
+            </AnimatedButton>
+          </div>
         </div>
       </motion.header>
+
+      <AnimatePresence>
+        {menuOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden"
+              onClick={() => setMenuOpen(false)}
+              aria-hidden
+            />
+            <motion.aside
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="fixed left-0 top-0 bottom-0 z-50 w-[min(280px,85vw)] bg-[var(--color-bg-elevated)] border-r border-[var(--color-border)] shadow-xl md:hidden overflow-y-auto"
+              aria-label="Mobile navigation"
+            >
+              <div className="pt-20 px-6 pb-8 flex flex-col gap-1">
+                {nav.map(({ to, label }) => (
+                  <Link
+                    key={to}
+                    to={to}
+                    onClick={() => setMenuOpen(false)}
+                    className={`py-3 px-4 rounded-xl text-base font-medium transition-colors ${
+                      location.pathname === to
+                        ? 'text-[var(--color-accent)] bg-[var(--color-primary)]/10'
+                        : 'text-[var(--color-text)] hover:bg-white/10'
+                    }`}
+                  >
+                    {label}
+                  </Link>
+                ))}
+                <div className="mt-4 pt-4 border-t border-[var(--color-border)]">
+                  <Link to="/contact" onClick={() => setMenuOpen(false)}>
+                    <span className="inline-flex items-center justify-center w-full rounded-full bg-[var(--color-primary)] text-white font-semibold py-3 px-6">
+                      Get a Quote
+                    </span>
+                  </Link>
+                </div>
+              </div>
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
 
       <main className="pt-20 min-h-screen">
         {children}
