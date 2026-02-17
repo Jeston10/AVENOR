@@ -1,10 +1,16 @@
 import { useEffect, useState } from 'react'
+import { useMusic } from '../context/MusicContext'
 import LightPillar from './LightPillar'
 
 const LOADING_TITLE = 'Welcome to Avenor'
 
 const LoadingScreen = () => {
   const [visibleLength, setVisibleLength] = useState(0)
+  const { requestPlay } = useMusic()
+
+  const handleInteraction = () => {
+    requestPlay()
+  }
 
   useEffect(() => {
     if (visibleLength < LOADING_TITLE.length) {
@@ -18,7 +24,11 @@ const LoadingScreen = () => {
   const text = LOADING_TITLE.slice(0, visibleLength)
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-[#050718] overflow-hidden">
+    <div
+      className="fixed inset-0 z-[9999] bg-[#050718] overflow-hidden"
+      onClick={handleInteraction}
+      onTouchStart={handleInteraction}
+    >
       <div className="relative w-full h-full">
         <div className="absolute inset-0">
           <LightPillar

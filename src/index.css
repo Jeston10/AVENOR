@@ -54,6 +54,12 @@ body::-webkit-scrollbar {
   border: 1px solid var(--color-border);
 }
 
+/* Solid navbar that matches theme */
+.navbar-solid {
+  background: var(--color-bg-elevated);
+  border-bottom: 1px solid var(--color-border);
+}
+
 /* Glow effect */
 .glow {
   box-shadow: 0 0 40px var(--color-primary-glow);
