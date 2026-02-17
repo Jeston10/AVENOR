@@ -1,0 +1,6 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Replace with your live domain when you deploy (e.g. https://avenor.com/sitemap.xml)
+Sitemap: https://avenor.com/sitemap.xml
